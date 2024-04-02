@@ -158,3 +158,4 @@ export function Bet(name: string, ammount: number) {
 		return new Map(map)
 	})
 }
+

@@ -1,5 +1,6 @@
 <script lang="ts">
     	import { Suit, Type } from "../utils/types";
+	import { scale } from "svelte/transition";
     	export let type: Type = Type.Ace
 	export let suit: Suit = Suit.Heart
 	export let r: number = 0
@@ -36,15 +37,16 @@
 <div class="card relative grid justify-between border-[1px] border-zinc-800 shadow-[0_0px_220px_2px_rgba(255,255,255,0.2)] w-[160px] rounded-xl h-[220px]"
 	style:rotate={`${r}deg`}
 	style:margin-left={`${m}px`}
+	in:scale={{duration: 500}}
 >
 	<div class="flex p-[10px] rounded-md justify-between font-bold text-center items-center h-fit w-[155px]">
 		<p class="">{Icon(suit)}</p>
-		<p class="text-lg">{Letter(type)}</p>
+		<p class="text-xl">{Letter(type)}</p>
 	</div>
 
 	<div class="flip absolute bottom-0 flex p-[10px] rounded-md justify-between font-bold text-center items-center h-fit w-[155px]">
 		<p class="">{Icon(suit)}</p>
-		<p class="text-lg">{Letter(type)}</p>
+		<p class="text-xl">{Letter(type)}</p>
 	</div>
 </div>
 
