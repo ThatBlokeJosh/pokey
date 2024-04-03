@@ -12,14 +12,6 @@
 			ev = Hand[Evaluate($hand)]
 		}
 	}
-	let interval: ReturnType<typeof setInterval>
-	interval = setInterval(async () => {
-		if (name != "" && $turn < 4) {
-			Check(name)
-		} else if ($turn >= 4){
-			Status()
-		}
-	}, 1000)
 	let open = true
 	let betOpen = false
 	let nameOpen = true
@@ -96,6 +88,13 @@
 				Reset()
 			}}>Replay</button>
 		{/if}
+		<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
+			if (name != "" && $turn < 4) {
+				Check(name)
+			} else if ($turn >= 4){
+				Status()
+			}
+		}}>Update</button>
 	</div>
 </div>
 </div>
