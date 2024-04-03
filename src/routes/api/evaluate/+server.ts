@@ -16,3 +16,10 @@ export async function POST({request}) {
 	}
 	return json({top, rank})
 }
+
+
+export async function DELETE() {
+	top = ""
+	rank = -1
+	return json("goodbye")
+}

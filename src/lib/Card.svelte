@@ -37,7 +37,7 @@
 <div class="card relative grid justify-between border-[1px] border-zinc-800 shadow-[0_0px_220px_2px_rgba(255,255,255,0.2)] w-[160px] rounded-xl h-[220px]"
 	style:rotate={`${r}deg`}
 	style:margin-left={`${m}px`}
-	in:scale={{duration: 500}}
+	in:scale={{duration: 200}}
 >
 	<div class="flex p-[10px] rounded-md justify-between font-bold text-center items-center h-fit w-[155px]">
 		<p class="">{Icon(suit)}</p>

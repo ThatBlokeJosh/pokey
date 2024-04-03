@@ -28,17 +28,22 @@ export function Shuffle<T>(array: T[]): T[] {
 };
 
 
-export function Deck() {
+export function Deck(): Card[] {
+	innerDeck = []
+	deck.set([])
 	for (let i = 2; i <= 14; i++) {
 		AllSuits(i).forEach(card => {
 			innerDeck.push(card)
 		})
 	}
-	deck.set(Shuffle(innerDeck))
+	let d = Shuffle(innerDeck)
+	deck.set(d)
+	return d
 }
 
 
 deck.subscribe(d => {
+	innerDeck = []
 	innerDeck = d
 })
 
