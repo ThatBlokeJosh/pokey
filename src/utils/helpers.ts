@@ -99,7 +99,7 @@ export async function Status() {
 	const headers = new Headers();
 	headers.set('Content-Type', 'application/json');
 	const requestOptions = { method: 'GET', headers: headers}
-	let res = await fetch(`http://${url}/api/evaluate`, requestOptions);
+	let res = await fetch(`${url}/api/evaluate`, requestOptions);
 	res.json().then((data) => {
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
@@ -118,7 +118,7 @@ export function Reset() {
 let evaluated = false
 
 turn.subscribe(async (t) => {
-	if (t === 5) {
+	if (t === 6) {
 		if (!evaluated)	{
 			let rank = Hand.HighCard
 			hand.subscribe(h => {

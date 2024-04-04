@@ -45,9 +45,11 @@ export async function PATCH({request}) {
 	room.current = room.names[room.index % room.names.length]
 	if (room.current === room.names[0]) {
 		room.turn += 1
-		Draw(1).forEach(card => {
-			room.table.push(card)
-		})
+		if (room.turn <= 5) {
+			Draw(1).forEach(card => {
+				room.table.push(card)
+			})
+		}
 		
 	}
 	UpdateRoom(slug, room)
@@ -70,12 +72,18 @@ export function DELETE({request}) {
 export async function PUT({request}) {
 	let {name} = await request.json()
 	let slug = request.url.toString().split("/")[3]
+	let winner = room.players.get(room.top)
+	winner.wallet += room.pot  
+	room.players.set(room.top, winner)
 	room.turn = 0
 	room.index = 0
 	room.current = room.names[0]
 	room.pot = 0
 	room.table = []
+	room.top = ""
+	room.rank = -1
 	Deck()
+
 	let player = room.players.get(name) 
 	let hand = Draw(2)
 	player.hand = hand

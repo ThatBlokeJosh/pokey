@@ -79,7 +79,7 @@
 		{/if}
 	</div>
 	<div class="mt-[30px] w-fit mx-auto flex gap-[20px]">
-		{#if $turn < 5}
+		{#if $turn < 6}
 			<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
 				if ($current === name) {
 					await Bet(0)
@@ -102,9 +102,9 @@
 			}}>Next Round</button>
 		{/if}
 		<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
-			if (name != "" && $turn < 5) {
+			if (name != "" && $turn < 6) {
 				Check(name)
-			} else if ($turn >= 5){
+			} else if ($turn >= 6){
 				Status()
 			}
 		}}>Update</button>

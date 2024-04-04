@@ -1,25 +1,25 @@
 import { json } from "@sveltejs/kit";
+import type { Room } from "../../../../utils/types";
+import { GetRoom, UpdateRoom } from "../../../../utils/rooms";
 
-let top = ""
-let rank = -1
+let room: Room
 
-export function GET() {
-	return json({top, rank})
+export function GET({request}) {
+	let slug = request.url.toString().split("/")[3]
+	room = GetRoom(slug)
+	return json({room})
 }
 
 export async function POST({request}) {
+	let slug = request.url.toString().split("/")[3]
+	room = GetRoom(slug)
 	let {name, hand} = await request.json()	
-	if (hand > rank) {
-		top = name
+	if (hand > room.rank) {
+		room.top = name
 		let h = +hand
-		rank = h
+		room.rank = h
 	}
-	return json({top, rank})
+	UpdateRoom(slug, room)
+	return json({room})
 }
 
-
-export async function DELETE() {
-	top = ""
-	rank = -1
-	return json("goodbye")
-}

@@ -46,6 +46,8 @@ export enum Hand {
 }
 
 export type Room = {
+	top: string,
+	rank: number,
 	turn: number,
 	pot: number,
 	names: string[],

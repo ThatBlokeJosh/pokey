@@ -9,10 +9,10 @@
 
 <div class="bg-black text-white h-[100vh] my-auto grid justify-center items-center w-[100vw]">
 	<div class="h-fit grid gap-[20px]">
-		<h1 class="font-bold">Welcome to <span class="pokey m-[10px] rounded-md px-[10px] py-[5px] text-black"
+		<h1 class="text-center font-bold pokey m-[10px] rounded-md px-[10px] py-[5px] text-white"
 			style:background-color={`#${hex}`}
 			style:box-shadow={`0 0px 20px 5px #${hex}`}
-		>Pokey ♠️</span></h1>
+		>Pokey ♠️</h1>
 		<div class="flex gap-[20px]">
 			<a href={`/${hex}`}><button class="bg-white rounded-md px-[10px] py-[5px] text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)] font-bold hover:scale-110 duration-500">Create room</button></a>
 			<input bind:value={join} type="text" placeholder="Room code" class="italic bg-white rounded-md px-[10px] py-[5px] text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)] font-bold">
@@ -22,9 +22,6 @@
 </div>
 
 <style>
-	h1 {
-		font-size: 3rem;
-	}
 	.pokey {
 		font-size: 5rem;
 	}
