@@ -1,9 +1,12 @@
 import { writable, type Writable } from "svelte/store";
 import { Hand, type Card } from "./types";
 import { Evaluate } from "./poker";
+import { rooms } from "./rooms";
 
 export let hand: Writable<Card[]> = writable(new Array())
+export let table: Writable<Card[]> = writable(new Array())
 export let pot: Writable<number> = writable(0)
+export let wallet: Writable<number> = writable(0)
 export let current: Writable<string> = writable("")
 export let winner: Writable<string> = writable("")
 export let winnerHand: Writable<number> = writable(0)
@@ -11,7 +14,8 @@ export let turn: Writable<number> = writable(0)
 export let userName: string = ""
 export let url: string = ""
 
-export async function Join(name: string, url: string) {
+export async function Join(name: string, href: string) {
+	url = href
 	const headers = new Headers();
 	headers.set('Content-Type', 'application/json');
 	const requestOptions = {
@@ -20,8 +24,13 @@ export async function Join(name: string, url: string) {
 	body: JSON.stringify({name: name}),
 	};
 	let res = await fetch(`${url}/api`, requestOptions)
-	res.json().then(data => {
-		hand.set(data)
+	res.json().then((data)=> {
+		hand.set(data.player.hand)
+		wallet.set(data.player.wallet)
+		current.set(data.room.current)
+		pot.set(data.room.pot)
+		turn.set(data.room.turn)
+		table.set(data.room.table)
 	})
 	userName = name
 }
@@ -33,15 +42,11 @@ export async function Check(name: string) {
 	const requestOptions = { method: 'GET', headers: headers }
 	let res = await fetch(`${url}/api/?name=${name}`, requestOptions);
 	res.json().then((data) => {
-		current.set(data.current)
-		pot.set(data.pot)
-		turn.set(data.turn)
-		hand.update(h => {
-			data.drawn.forEach((card: Card) => {
-				h.push(card)
-			})
-			return h
-		})
+		current.set(data.room.current)
+		pot.set(data.room.pot)
+		turn.set(data.room.turn)
+		table.set(data.room.table)
+		wallet.set(data.player.wallet)
 	})
 }
 
@@ -49,12 +54,33 @@ export async function Check(name: string) {
 export async function Bet(ammount: number) {
 	const headers = new Headers();
 	headers.set('Content-Type', 'application/json');
-	const requestOptions = { method: 'PUT', headers: headers, body: JSON.stringify({bet: ammount}) }
+	const requestOptions = { method: 'PATCH', headers: headers, body: JSON.stringify({bet: ammount}) }
 	let res = await fetch(`${url}/api/`, requestOptions);
 	res.json().then((data) => {
-		pot.set(data.pot)
-		turn.set(data.turn)
-		current.set(data.current)
+		pot.set(data.room.pot)
+		turn.set(data.room.turn)
+		current.set(data.room.current)
+		table.set(data.room.table)
+		wallet.set(data.player.wallet)
+	})
+}
+
+export async function NextRound(name: string) {
+	const headers = new Headers();
+	headers.set('Content-Type', 'application/json');
+	const requestOptions = {
+	method: 'PUT',
+	headers: headers,
+	body: JSON.stringify({name: name}),
+	};
+	let res = await fetch(`${url}/api`, requestOptions)
+	res.json().then((data)=> {
+		hand.set(data.player.hand)
+		wallet.set(data.player.wallet)
+		current.set(data.room.current)
+		pot.set(data.room.pot)
+		turn.set(data.room.turn)
+		table.set(data.room.table)
 	})
 }
 
@@ -64,8 +90,8 @@ export async function Ev(name: string, rank: number) {
 	const requestOptions = { method: 'POST', headers: headers, body: JSON.stringify({name: name, hand: rank}) }
 	let res = await fetch(`${url}/api/evaluate`, requestOptions);
 	res.json().then((data) => {
-		winner.set(data.top)
-		winnerHand.set(data.rank)
+		winner.set(data.room.top)
+		winnerHand.set(data.room.rank)
 	})
 }
 
@@ -75,8 +101,8 @@ export async function Status() {
 	const requestOptions = { method: 'GET', headers: headers}
 	let res = await fetch(`http://${url}/api/evaluate`, requestOptions);
 	res.json().then((data) => {
-		winner.set(data.top)
-		winnerHand.set(data.rank)
+		winner.set(data.room.top)
+		winnerHand.set(data.room.rank)
 	})
 }
 
@@ -92,12 +118,15 @@ export function Reset() {
 let evaluated = false
 
 turn.subscribe(async (t) => {
-	if (t === 4) {
+	if (t === 5) {
 		if (!evaluated)	{
 			let rank = Hand.HighCard
 			hand.subscribe(h => {
-				rank = Evaluate(h)
+				table.subscribe(t => {
+					rank = Evaluate([...h, ...t])
+				})
 			})
+
 			await Ev(userName, rank)
 		}
 	}

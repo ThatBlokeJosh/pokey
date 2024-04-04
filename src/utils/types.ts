@@ -44,3 +44,13 @@ export enum Hand {
 	StraightFlush,
 	RoyalFlush,
 }
+
+export type Room = {
+	turn: number,
+	pot: number,
+	names: string[],
+	index: number,
+	current: string,
+	table: Card[],
+	players: Map<string, Player>
+}
