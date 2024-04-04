@@ -8,8 +8,8 @@
 
 
 <div class="bg-black text-white h-[100vh] my-auto grid justify-center items-center w-[100vw]">
-	<div class="h-fit grid gap-[10px]">
-		<h1 class="text-center text-9xl font-bold">Welcome to <span class="pokey rounded-md px-[10px] py-[5px] text-black"
+	<div class="h-fit grid gap-[20px]">
+		<h1 class="font-bold">Welcome to <span class="pokey m-[10px] rounded-md px-[10px] py-[5px] text-black"
 			style:background-color={`#${hex}`}
 			style:box-shadow={`0 0px 20px 5px #${hex}`}
 		>Pokey ♠️</span></h1>
