@@ -31,6 +31,8 @@ export async function Join(name: string, href: string) {
 		pot.set(data.room.pot)
 		turn.set(data.room.turn)
 		table.set(data.room.table)
+		winner.set(data.room.top)
+		winnerHand.set(data.room.rank)
 	})
 	userName = name
 }
@@ -47,6 +49,8 @@ export async function Check(name: string) {
 		turn.set(data.room.turn)
 		table.set(data.room.table)
 		wallet.set(data.player.wallet)
+		winner.set(data.room.top)
+		winnerHand.set(data.room.rank)
 	})
 }
 
@@ -62,6 +66,8 @@ export async function Bet(ammount: number) {
 		current.set(data.room.current)
 		table.set(data.room.table)
 		wallet.set(data.player.wallet)
+		winner.set(data.room.top)
+		winnerHand.set(data.room.rank)
 	})
 }
 
@@ -81,6 +87,8 @@ export async function NextRound(name: string) {
 		pot.set(data.room.pot)
 		turn.set(data.room.turn)
 		table.set(data.room.table)
+		winner.set(data.room.top)
+		winnerHand.set(data.room.rank)
 	})
 }
 
@@ -117,17 +125,17 @@ export function Reset() {
 
 let evaluated = false
 
-turn.subscribe(async (t) => {
-	if (t === 6) {
-		if (!evaluated)	{
-			let rank = Hand.HighCard
-			hand.subscribe(h => {
-				table.subscribe(t => {
-					rank = Evaluate([...h, ...t])
-				})
-			})
-
-			await Ev(userName, rank)
-		}
-	}
-})
+// turn.subscribe(async (t) => {
+// 	if (t === 6) {
+// 		if (!evaluated)	{
+// 			let rank = Hand.HighCard
+// 			hand.subscribe(h => {
+// 				table.subscribe(t => {
+// 					rank = Evaluate([...h, ...t])
+// 				})
+// 			})
+//
+// 			await Ev(userName, rank)
+// 		}
+// 	}
+// })

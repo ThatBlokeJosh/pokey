@@ -46,6 +46,8 @@ export enum Hand {
 }
 
 export type Room = {
+	slug: string,
+	evaluated: boolean,
 	top: string,
 	rank: number,
 	turn: number,

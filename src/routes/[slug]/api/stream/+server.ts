@@ -6,7 +6,7 @@ export function POST({ request }) {
     request,
     async start({emit}) {
 	let i = 0
-	rooms.subscribe(() => {
+	rooms.subscribe((r) => {
 		emit('message', i.toString())
 		i += 1
 	})

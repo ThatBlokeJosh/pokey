@@ -19,11 +19,12 @@ export function GetRoom(slug: string): Room {
 	let names: string[] = []
 	let index = 0
 	let current = ""
+	let slugRoom = ""
 	let table: Card[] = new Array()
 	let players: Map<string, Player> = new Map()
 	let top = ""
 	let rank = -1
-	let room: Room = {turn, pot, names, index, current, table, players, top, rank}
+	let room: Room = {turn, pot, names, index, current, table, players, top, rank, slug:slugRoom, evaluated: false}
 	rooms.update(r => {
 		r.set(slug, room)
 		return new Map(r)
