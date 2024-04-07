@@ -18,6 +18,12 @@ rooms.subscribe((r) => {
 					room.rank = h
 				}
 			}
+			let winner = room.players.get(room.top)
+			if (winner) {
+				winner.wallet += room.pot  
+			}
+			room.players.set(room.top, winner)
+			room.pot = 0
 			room.evaluated = true
 			UpdateRoom(room.slug, room)
 		}
@@ -92,15 +98,9 @@ export function DELETE({request}) {
 export async function PUT({request}) {
 	let {name} = await request.json()
 	let slug = request.url.toString().split("/")[3]
-	let winner = room.players.get(room.top)
-	if (winner) {
-		winner.wallet += room.pot  
-	}
-	room.players.set(room.top, winner)
 	room.turn = 0
 	room.index = 0
 	room.current = room.names[0]
-	room.pot = 0
 	room.table = []
 	room.top = ""
 	room.rank = -1

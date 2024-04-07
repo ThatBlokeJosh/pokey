@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { flip } from "svelte/animate";
     	import { Suit, Type } from "../utils/types";
 	import { fly, scale } from "svelte/transition";
     	export let type: Type

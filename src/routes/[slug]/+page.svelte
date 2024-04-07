@@ -2,7 +2,7 @@
 	import CardComponent from "$lib/Card.svelte";
 	import Blob from "$lib/Blob.svelte";
 	import {Evaluate} from "../../utils/poker"
-	import {hand, Check, pot, Bet, current, Join, turn, Status, winner, Reset, table, wallet, NextRound} from "../../utils/helpers"
+	import {hand, Check, pot, Bet, current, Join, turn, Status, winner, Reset, table, wallet, NextRound, room} from "../../utils/helpers"
 	import { fly, scale } from "svelte/transition";
 	import { Hand, type Card, Suit } from "../../utils/types";
 	import { page } from "$app/stores";
@@ -105,9 +105,20 @@ out:fly={{duration: 500}}
 			<p class="absolute top-[-15px] right-[-17px] rotate-[45deg] text-[30px]">{$winner === name ? "👑" : "🤡"}</p>
 		</div>
 	{/if}
-	{#if $current && !$winner}
-		<h1 in:scale={{duration: 500, delay: 1500}} out:scale={{duration: 500}}
-			class="text-xl mx-auto font-bold text-white duration-500 {$current === name ? 'bg-green-500 shadow-[0_0px_20px_5px_rgba(0,255,0,0.5)]' : 'bg-red-500 shadow-[0_0px_20px_5px_rgba(255,0,0,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]"><span class="opacity-90 italic text-sm">Current player: </span>{$current}</h1>
+	{#if $current && !$winner && $room}
+		<div class="flex gap-[5px] w-fit mx-auto" in:scale={{duration: 500, delay: 1500}} out:scale={{duration: 500}}>
+			{#each $room.names as player}
+				{#if player != name}
+					<h1 class="text-xl mx-auto font-bold text-white duration-500 {$current === player ? 'bg-yellow-500 shadow-[0_0px_20px_5px_rgba(255,255,0,0.5)]' : 'bg-gray-500 shadow-[0_0px_20px_5px_rgba(128,128,128,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]">
+						<span class="opacity-90 italic text-sm">{$current === player ? "Current player: " : "Player: "}</span>{player}
+					</h1>
+					{:else}
+					<h1 class="text-xl mx-auto font-bold text-white duration-500 {$current === name ? 'bg-green-500 shadow-[0_0px_20px_5px_rgba(0,255,0,0.5)]' : 'bg-red-500 shadow-[0_0px_20px_5px_rgba(255,0,0,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]">
+						<span class="opacity-90 italic text-sm">{$current === player ? "Current player: " : "Player: "}</span>You
+					</h1>
+				{/if}
+			{/each}	
+		</div>
 	{/if}
 	<div class="h-fit my-auto flex justify-center items-center gap-[10px] duration-500 table-cards"
 		in:scale={{duration: 500}}

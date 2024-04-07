@@ -1,8 +1,9 @@
 import { writable, type Writable } from "svelte/store";
-import { Hand, type Card } from "./types";
+import { Hand, type Card, type Room } from "./types";
 import { Evaluate } from "./poker";
 import { rooms } from "./rooms";
 
+export let room: Writable<Room> = writable()
 export let hand: Writable<Card[]> = writable(new Array())
 export let table: Writable<Card[]> = writable(new Array())
 export let pot: Writable<number> = writable(0)
@@ -33,6 +34,7 @@ export async function Join(name: string, href: string) {
 		table.set(data.room.table)
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
+		room.set(data.room)
 	})
 	userName = name
 }
@@ -51,6 +53,7 @@ export async function Check(name: string) {
 		wallet.set(data.player.wallet)
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
+		room.set(data.room)
 	})
 }
 
@@ -68,6 +71,7 @@ export async function Bet(ammount: number) {
 		wallet.set(data.player.wallet)
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
+		room.set(data.room)
 	})
 }
 
@@ -89,6 +93,7 @@ export async function NextRound(name: string) {
 		table.set(data.room.table)
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
+		room.set(data.room)
 	})
 }
 
