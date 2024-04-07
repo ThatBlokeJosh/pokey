@@ -1,7 +1,7 @@
 <script lang="ts">
 	import CardComponent from "$lib/Card.svelte";
 	import Blob from "$lib/Blob.svelte";
-	import {deck, Draw, Evaluate, Deck} from "../../utils/poker"
+	import {Evaluate} from "../../utils/poker"
 	import {hand, Check, pot, Bet, current, Join, turn, Status, winner, Reset, table, wallet, NextRound} from "../../utils/helpers"
 	import { fly, scale } from "svelte/transition";
 	import { Hand, type Card, Suit } from "../../utils/types";
@@ -109,8 +109,8 @@ out:fly={{duration: 500}}
 		<h1 in:scale={{duration: 500, delay: 1500}} out:scale={{duration: 500}}
 			class="text-xl mx-auto font-bold text-white duration-500 {$current === name ? 'bg-green-500 shadow-[0_0px_20px_5px_rgba(0,255,0,0.5)]' : 'bg-red-500 shadow-[0_0px_20px_5px_rgba(255,0,0,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]"><span class="opacity-90 italic text-sm">Current player: </span>{$current}</h1>
 	{/if}
-	<div class="w-[100vw] h-fit my-auto flex justify-center items-center gap-[10px] duration-500"
-		in:scale={{duration: 500, delay: 2000}}
+	<div class="h-fit my-auto flex justify-center items-center gap-[10px] duration-500 table-cards"
+		in:scale={{duration: 500}}
 	>
 		{#each $table as card}
 			<CardComponent type={card.type} suit={card.suit}/>
@@ -164,3 +164,10 @@ out:fly={{duration: 500}}
 	{/if}
 </div>
 </div>
+
+<style>
+	.table-cards {
+		scrollbar-width: none;
+		overflow: scroll;
+	}
+</style>

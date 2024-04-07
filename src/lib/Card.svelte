@@ -30,7 +30,7 @@
 		}
 		return type.toString()
 	}
-	export let pattern = "curves"
+	export let pattern = "cubes"
 </script>
 
 
@@ -49,6 +49,13 @@
 			<p class="">{Icon(suit)}</p>
 			<p class="text-xl">{Letter(type)}</p>
 		</div>
+		{:else}
+
+		<div class="flex p-[10px] rounded-md justify-between font-bold text-center items-center h-fit w-[155px]">
+		</div>
+
+		<div class="flip absolute bottom-0 flex p-[10px] rounded-md justify-between font-bold text-center items-center h-fit w-[155px]">
+		</div>
 	{/if}
 </div>
 
@@ -64,9 +71,9 @@
 
 .cubes {
   --s: 60px; /* control the size */
-  --c1: #b2b2b2;
-  --c2: #ffffff;
-  --c3: #d9d9d9;
+  --c1: #333333;
+  --c2: #111111;
+  --c3: #444444;
   
   --_g: var(--c3) 0 120deg,#0000 0;
   background:
@@ -138,11 +145,11 @@
 
 .curves {
   --s: 50px; /* the size */
-  --c: #ffffff;
+  --c: #000;
   
   --_s: calc(2*var(--s)) calc(2*var(--s));
   --_g: 35.36% 35.36% at;
-  --_c: #0000 66%,#a1a1a1 68% 70%,#0000 72%;
+  --_c: #0000 66%,#ffffff 68% 70%,#0000 72%;
   background:
     radial-gradient(var(--_g) 100% 25%,var(--_c)) var(--s) var(--s)/var(--_s),
     radial-gradient(var(--_g) 0    75%,var(--_c)) var(--s) var(--s)/var(--_s),
