@@ -1,0 +1,19 @@
+name: Pokey deployment
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+on: [push]
+
+jobs:
+  Explore-Gitea-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ gitea.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!"
+      - run: echo "🔎 The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
+      - name: Build docker image 
+        run: |
+          docker build -t pokey .
+
+      - name: Run docker image
+        run: |
+          docker run --name pokey -p 4001:4173 -d pokey 
+      - run: echo "🍏 This job's status is ${{ job.status }}."
