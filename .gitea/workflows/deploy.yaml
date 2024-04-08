@@ -9,9 +9,12 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ gitea.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by Gitea!"
       - run: echo "🔎 The name of your branch is ${{ gitea.ref }} and your repository is ${{ gitea.repository }}."
+      - name: List files in the repository
+        run: |
+          ls ${{ gitea.workspace }}
       - name: Build docker image 
         run: |
-          docker build -t pokey ../../.
+          docker build -t pokey ${{ gitea.workspace }}
 
       - name: Run docker image
         run: |
