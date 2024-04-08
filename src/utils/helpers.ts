@@ -1,9 +1,10 @@
 import { writable, type Writable } from "svelte/store";
-import { Hand, type Card, type Room } from "./types";
+import { Hand, type Card, type Player, type Room } from "./types";
 import { Evaluate } from "./poker";
 import { rooms } from "./rooms";
 
 export let room: Writable<Room> = writable()
+export let player: Writable<Player> = writable()
 export let hand: Writable<Card[]> = writable(new Array())
 export let table: Writable<Card[]> = writable(new Array())
 export let pot: Writable<number> = writable(0)
@@ -35,6 +36,7 @@ export async function Join(name: string, href: string) {
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
 		room.set(data.room)
+		player.set(data.player)
 	})
 	userName = name
 }
@@ -46,14 +48,15 @@ export async function Check(name: string) {
 	const requestOptions = { method: 'GET', headers: headers }
 	let res = await fetch(`${url}/api/?name=${name}`, requestOptions);
 	res.json().then((data) => {
-		current.set(data.room.current)
 		pot.set(data.room.pot)
+		current.set(data.room.current)
 		turn.set(data.room.turn)
 		table.set(data.room.table)
 		wallet.set(data.player.wallet)
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
 		room.set(data.room)
+		player.set(data.player)
 	})
 }
 
@@ -72,6 +75,7 @@ export async function Bet(ammount: number) {
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
 		room.set(data.room)
+		player.set(data.player)
 	})
 }
 
@@ -85,15 +89,16 @@ export async function NextRound(name: string) {
 	};
 	let res = await fetch(`${url}/api`, requestOptions)
 	res.json().then((data)=> {
+		pot.set(data.room.pot)
 		hand.set(data.player.hand)
 		wallet.set(data.player.wallet)
 		current.set(data.room.current)
-		pot.set(data.room.pot)
 		turn.set(data.room.turn)
 		table.set(data.room.table)
 		winner.set(data.room.top)
 		winnerHand.set(data.room.rank)
 		room.set(data.room)
+		player.set(data.player)
 	})
 }
 

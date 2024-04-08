@@ -2,10 +2,11 @@
 	import CardComponent from "$lib/Card.svelte";
 	import Blob from "$lib/Blob.svelte";
 	import {Evaluate} from "../../utils/poker"
-	import {hand, Check, pot, Bet, current, Join, turn, Status, winner, Reset, table, wallet, NextRound, room} from "../../utils/helpers"
+	import {hand, Check, pot, Bet, current, Join, turn, Status, winner, Reset, table, wallet, NextRound, room, player} from "../../utils/helpers"
 	import { fly, scale } from "svelte/transition";
 	import { Hand, type Card, Suit } from "../../utils/types";
 	import { page } from "$app/stores";
+	import { writable } from "svelte/store";
 	let name = ""
 	function SplitEv(ev: string): string {
 		let output = ""
@@ -38,6 +39,12 @@
 	let y = 0
 
 	let patterns = ["cubes", "zigzag", "aztec", "diamonds", "curves", "cubes2", "hearts"]
+	let call = writable(0)
+	player.subscribe(p => {
+		if (p) {
+			call.set($player.owes);
+		}
+	})
 </script>
 
 {#if !open}
@@ -69,10 +76,12 @@ out:fly={{duration: 500}}
 			<input in:scale={{duration: 500}} type="text" inputmode="numeric" autofocus placeholder="100$" class="w-[20vw] p-[10px] mx-auto rounded-md shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)] font-bold text-center italic h-fit"
 				on:keydown={async (e) => {
 					if (e.key.toString() === "Enter") {
-						let ammount = +e.target.value
+						let ammount = +e.target.value + $call
 						if (ammount && ammount <= $wallet && ammount > 0) {
-							await Bet(ammount)
-						}
+							await Bet(Math.ceil(ammount))
+						} else if (ammount && ammount > $wallet && ammount > 0) {
+							await Bet($wallet)
+						} 
 						open = false
 						betOpen = false
 					}
@@ -150,19 +159,19 @@ out:fly={{duration: 500}}
 		in:scale={{duration: 500, delay: 1000}}
 	>
 		{#if $turn < 6}
-			<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
+			<button class="{$current === name ? '' : 'pointer-events-none cursor-not-allowed opacity-50'} hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
 				if ($current === name) {
-					await Bet(0)
+					await Bet($call)
 				}
-			}}>Check</button>
-			<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
+			}}>{$call > 0 ? `Call ${$call}$` : "Check"}</button>
+			<button class="{$current === name || $wallet <= 0 ? '' : 'pointer-events-none cursor-not-allowed opacity-50'} hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
 				if ($current === name) {
 					open = true
 					betOpen = true
 				}
-			}}>Bet</button>
-			<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
-			}}>Fold</button>
+			}}>{$call > 0 ? "Raise" : "Bet"}</button>
+			<!-- <button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => { -->
+			<!-- }}>Fold</button> -->
 		{:else}
 			<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={() => {
 				Reset()

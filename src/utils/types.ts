@@ -30,6 +30,7 @@ export type Player = {
 	name: string,
 	wallet: number,
 	hand: Card[],
+	owes: number,
 }
 
 export enum Hand {
@@ -56,5 +57,6 @@ export type Room = {
 	index: number,
 	current: string,
 	table: Card[],
-	players: Map<string, Player>
+	players: Map<string, Player>,
+	deck: Card[],
 }

@@ -29,15 +29,13 @@ export function Shuffle<T>(array: T[]): T[] {
 
 
 export function Deck(): Card[] {
-	innerDeck = []
-	deck.set([])
+	let deck: Card[] = new Array()
 	for (let i = 2; i <= 14; i++) {
 		AllSuits(i).forEach(card => {
-			innerDeck.push(card)
+			deck.push(card)
 		})
 	}
-	let d = Shuffle(innerDeck)
-	deck.set(d)
+	let d = Shuffle(deck)
 	return d
 }
 
@@ -47,14 +45,11 @@ deck.subscribe(d => {
 	innerDeck = d
 })
 
-export function Draw(ammount: number = 1): Card[] {
+export function Draw(ammount: number = 1, deck: Card[]): Card[] {
 	let drawn: Card[] = new Array()
 	for (let i = 0; i < ammount; i++) {
-		drawn.push(innerDeck[innerDeck.length-1])	
-		deck.update(d => {
-			d.pop()
-			return d
-		})
+		drawn.push(deck[deck.length-1])	
+		deck.pop()
 	}
 	return drawn
 }

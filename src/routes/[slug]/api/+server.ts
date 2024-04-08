@@ -1,5 +1,5 @@
 import { json } from "@sveltejs/kit";
-import { Deck, Draw, Evaluate } from "../../../utils/poker";
+import { Deck, Draw, Evaluate, players } from "../../../utils/poker";
 import { type Card, type Player, type Room } from "../../../utils/types";
 import { rooms, GetRoom, UpdateRoom } from "../../../utils/rooms";
 
@@ -48,8 +48,8 @@ export async function POST({request}) {
 		room.current = name
 		Deck()
 	}
-	let hand = Draw(2)
-	let player: Player = {name: name, wallet: 1000, hand: hand}
+	let hand = Draw(2, room.deck)
+	let player: Player = {name: name, wallet: 1000, hand: hand, owes: 0}
 	room.players.set(name, player)
 	room.names.push(name)
 	room.slug = slug
@@ -67,12 +67,19 @@ export async function PATCH({request}) {
 	if (b) {
 		room.pot += b
 	}
+	let raise = b - player?.owes
+	room.players.forEach(p => {
+		if (p.name != room.current) {
+			p.owes += raise
+		}
+	})
+	player.owes = 0
 	room.index += 1
 	room.current = room.names[room.index % room.names.length]
 	if (room.current === room.names[0]) {
 		room.turn += 1
 		if (room.turn <= 5) {
-			Draw(1).forEach(card => {
+			Draw(1, room.deck).forEach(card => {
 				room.table.push(card)
 			})
 		}
@@ -105,14 +112,16 @@ export async function PUT({request}) {
 	room.top = ""
 	room.rank = -1
 	room.evaluated = false
-	Deck()
-	let player = room.players.get(name) 
-	let hand = Draw(2)
-	player.hand = hand
-	if (player?.wallet <= 0) {
-		player.wallet = 1000
-	}
-	room.players.set(name, player)
+	room.deck = Deck()
+	room.players.forEach(player => {
+		let hand = Draw(2, room.deck)
+		player.hand = hand
+		if (player?.wallet <= 0) {
+			player.wallet = 1000
+		}
+		room.players.set(player.name, player)
+	})
 	UpdateRoom(slug, room)
-	return json({room, player})
+	let returnPlayer = room.players.get(name)
+	return json({room, returnPlayer})
 }

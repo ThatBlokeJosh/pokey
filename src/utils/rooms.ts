@@ -1,5 +1,6 @@
 import { writable, type Writable } from "svelte/store";
 import {type Room, type Card, type Player} from "./types"
+import { Deck } from "./poker";
 
 export let rooms: Writable<Map<string, Room>> = writable(new Map())
 let innerRooms: Map<string, Room> = new Map()
@@ -24,7 +25,7 @@ export function GetRoom(slug: string): Room {
 	let players: Map<string, Player> = new Map()
 	let top = ""
 	let rank = -1
-	let room: Room = {turn, pot, names, index, current, table, players, top, rank, slug:slugRoom, evaluated: false}
+	let room: Room = {turn, pot, names, index, current, table, players, top, rank, slug:slugRoom, evaluated: false, deck: Deck()}
 	rooms.update(r => {
 		r.set(slug, room)
 		return new Map(r)
