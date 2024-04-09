@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+
+  build:
+
+    runs-on: berry
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Remove existing image
+      run: docker rm -f pokey
+    - name: Build the Docker image
+      run: docker build -t pokey
+    - name: Run docker image
+      run: docker run --name pokey -p 4001:4173 -d pokey
