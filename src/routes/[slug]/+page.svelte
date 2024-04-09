@@ -7,7 +7,18 @@
 	import { Hand, type Card, Suit } from "../../utils/types";
 	import { page } from "$app/stores";
 	import { writable } from "svelte/store";
+	import { GetName, SetName } from "../../utils/localStorage"
 	let name = ""
+	let open = false
+	let nameOpen = false
+	onMount(() => {
+		name = GetName()
+		open = name === ""
+		nameOpen = name === ""
+		if (name != "") {
+			Join(name, $page.url.toString())
+		}
+	})
 	function SplitEv(ev: string): string {
 		let output = ""
 		for (let i = 0; i < ev.length; i++) {
@@ -26,10 +37,9 @@
 			ev = SplitEv(Hand[Evaluate([...$hand, ...$table])])
 		}
 	}
-	let open = name === ""
 	let betOpen = false
-	let nameOpen = name === ""
 	import { source } from 'sveltekit-sse'
+	import { onMount } from "svelte";
 	source('{$page.url.toString()}/api/stream').select('message').subscribe(() => {
 		if (name != "") {
 			Check(name)	
@@ -64,6 +74,7 @@ out:fly={{duration: 500}}
 					Join(name, $page.url.toString())
 					open = false
 					nameOpen = false
+					SetName(name)
 				}
 			}}
 		>
