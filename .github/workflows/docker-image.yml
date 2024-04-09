@@ -17,6 +17,6 @@ jobs:
     - name: Remove existing image
       run: docker rm -f pokey
     - name: Build the Docker image
-      run: docker build -t pokey
+      run: docker build -t pokey .
     - name: Run docker image
       run: docker run --name pokey -p 4001:4173 -d pokey
