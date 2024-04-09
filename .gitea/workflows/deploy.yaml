@@ -12,13 +12,13 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - run: echo "💡 The ${{ gitea.repository }} repository has been cloned to the runner."
-      - name: List files in the repository
+      - name: Kill and remove container
         run: |
-          ls ${{ gitea.workspace }}
+          docker kill pokey
+          docker remove pokey
       - name: Build docker image 
         run: |
           docker build -t pokey ${{ gitea.workspace }}
-
       - name: Run docker image
         run: |
           docker run --name pokey -p 4001:4173 -d pokey 
