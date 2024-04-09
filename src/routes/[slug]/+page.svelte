@@ -74,7 +74,6 @@ out:fly={{duration: 500}}
 					Join(name, $page.url.toString())
 					open = false
 					nameOpen = false
-					SetName(name)
 				}
 			}}
 		>

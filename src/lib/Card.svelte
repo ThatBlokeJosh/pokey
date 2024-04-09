@@ -33,7 +33,8 @@
 </script>
 
 
-<div class="card shadow-[0_0px_220px_2px_rgba(255,255,255,0.2)] {type === undefined && suit === undefined ? `${pattern} ` : ''} duration-500 relative grid justify-between border-[1px] border-zinc-800  w-[160px] rounded-xl h-[220px]"
+<div 
+  class="card shadow-[0_0px_220px_2px_rgba(255,255,255,0.2)] {type === undefined && suit === undefined ? `${pattern} ` : ''} duration-500 relative grid justify-between border-[1px] border-zinc-800  w-[160px] rounded-xl h-[220px]"
 	style:rotate={`${r}deg`}
 	style:margin-left={`${m}px`}
 	in:fly={{duration: 1000}}
