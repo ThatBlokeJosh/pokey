@@ -40,7 +40,7 @@
 	let betOpen = false
 	import { source } from 'sveltekit-sse'
 	import { onMount } from "svelte";
-	source('{$page.url.toString()}/api/stream').select('message').subscribe(() => {
+	source(`${$page.url.toString()}/api/stream`).select('message').subscribe(() => {
 		if (name != "") {
 			Check(name)	
 		}

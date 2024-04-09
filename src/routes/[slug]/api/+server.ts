@@ -3,35 +3,11 @@ import { Deck, Draw, Evaluate, players } from "../../../utils/poker";
 import { type Card, type Player, type Room } from "../../../utils/types";
 import { rooms, GetRoom, UpdateRoom } from "../../../utils/rooms";
 
-let room: Room
-
-rooms.subscribe((r) => {
-	if (room != undefined) {
-		if (room.turn > 5 && !room.evaluated) {
-			for (let i = 0; i < room.names.length; i++) {
-				let name = room.names[i]
-				let player = room.players.get(name)
-				let hand = Evaluate([...player?.hand, ...room.table])
-				if (hand > room.rank) {
-					room.top = name
-					let h = +hand
-					room.rank = h
-				}
-			}
-			let winner = room.players.get(room.top)
-			if (winner) {
-				winner.wallet += room.pot  
-			}
-			room.players.set(room.top, winner)
-			room.pot = 0
-			room.evaluated = true
-			UpdateRoom(room.slug, room)
-		}
-	}
-})
 
 export async function GET(event) {
 	let name = event.url.searchParams.get("name")
+	let slug = event.url.toString().split("/")[3]
+	let room = GetRoom(slug) 
 	let player = room.players.get(name)
 	return json({room, player})
 }
@@ -39,7 +15,7 @@ export async function GET(event) {
 export async function POST({request}) {
 	let {name} = await request.json()
 	let slug = request.url.toString().split("/")[3]
-	room = GetRoom(slug) 
+	let room = GetRoom(slug) 
 	if (room.players.has(name)) {
 		let player = room.players.get(name) 
 		return json({room, player})
@@ -60,6 +36,7 @@ export async function POST({request}) {
 export async function PATCH({request}) {
 	let {bet} = await request.json();
 	let slug = request.url.toString().split("/")[3]
+	let room = GetRoom(slug) 
 	let player = room.players.get(room.current)
 	player.wallet -= bet
 	room.players.set(room.current, player)
@@ -92,6 +69,7 @@ export async function PATCH({request}) {
 
 export function DELETE({request}) {
 	let slug = request.url.toString().split("/")[3]
+	let room = GetRoom(slug) 
 	room.names = []
 	room.turn = 0
 	room.current = ""
@@ -105,6 +83,7 @@ export function DELETE({request}) {
 export async function PUT({request}) {
 	let {name} = await request.json()
 	let slug = request.url.toString().split("/")[3]
+	let room = GetRoom(slug) 
 	room.turn = 0
 	room.index = 0
 	room.current = room.names[0]
@@ -123,5 +102,5 @@ export async function PUT({request}) {
 	})
 	UpdateRoom(slug, room)
 	let returnPlayer = room.players.get(name)
-	return json({room, returnPlayer})
+	return json({room, player:returnPlayer})
 }
