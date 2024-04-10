@@ -35,12 +35,12 @@
 {/if}
 
 
-{#if innerWidth > 0}
+{#if innerWidth > 0 && !open}
 	{#each hand as card, i}
 		<div
 			class="w-fit h-fit text-white absolute" style:top={`${(Math.floor(innerHeight/2)-110)}px`} style:left={`${Math.floor(((Math.floor(innerWidth/2)-((hand.length/2)*220))+i*220))}px`}
 			style:rotate={`${-30 + (i*15)}deg`}
-			transition:scale|global={{duration:500, delay: 500*i}}
+			in:scale|global={{duration:500, delay: 500*i}}
 		>
 			<CardComponent type={card.type} suit={card.suit}/>
 		</div>
