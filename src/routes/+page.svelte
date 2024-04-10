@@ -74,11 +74,10 @@ on:mousemove={(e) => {
 	y = e.clientY
 }}
 >
-
-	<div class="absolute top-[10px] left-[10px] px-[10px] flex gap-[10px]">
-		<h1 class="font-bold text-2xl z-[50]"><span class="opacity-70 italic text-lg">Name: </span>{name}</h1>
-		<button class="hover:scale-[1.2] duration-200 my-auto mx-auto bg-white rounded-md w-[30px] h-[30px] text-center shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)]" 
-			on:click={() => {open = true; nameOpen = true}}><i class="fa-solid text-[16px] text-center grid justify-center items-center self-center mx-auto my-auto text-black fa-pen"></i></button>
+	<div class="absolute top-[10px] left-[10px] px-[10px] flex gap-[5px]">
+		<h1 class="font-bold text-xl z-[50]"><span class="opacity-70 italic text-sm">Name: </span>{name}</h1>
+		<button class="hover:scale-[1.1] duration-500 my-auto mx-auto bg-white rounded-md w-[20px] h-[20px] text-center shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)]" 
+			on:click={() => {open = true; nameOpen = true}}><i class="scale-[1.1] fa-solid fa-sm text-[10px] text-center grid justify-center items-center self-center mx-auto my-auto text-black fa-pen"></i></button>
 	</div>
 	<div class="h-fit grid gap-[20px] z-[30]">
 		<div class="relative w-fit mx-auto text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 m-[10px] rounded-md px-[20px] py-[10px]">
@@ -98,9 +97,9 @@ on:mousemove={(e) => {
 	</div>
 
 	<div class="absolute bottom-[10px] right-[10px] px-[10px] flex gap-[10px] items-center">
-		<p class="text-sm font-bold italic opacity-80">Courtesy of ThatBlokeJosh, made with ❤️ and ☕</p>
+		<p class="text-sm italic opacity-80">Courtesy of ThatBlokeJosh, made with ❤️ and ☕</p>
 		<a href="https://github.com/ThatBlokeJosh/pokey">
-			<button class="hover:scale-[1.2] duration-200 my-auto mx-auto bg-white rounded-md w-[30px] h-[30px] text-center shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)]"> 
+			<button class="hover:scale-[1.1] duration-500 my-auto mx-auto bg-white rounded-md w-[30px] h-[30px] text-center shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)]"> 
 				<i class="fa-brands text-[16px] text-center grid justify-center items-center self-center mx-auto my-auto text-black fa-github"></i>
 			</button> 
 		</a>

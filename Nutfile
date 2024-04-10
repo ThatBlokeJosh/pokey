@@ -1,3 +1,0 @@
-pokey
-docker build -t pokey .
-docker run --name pokey -p 4001:4173 -d pokey 

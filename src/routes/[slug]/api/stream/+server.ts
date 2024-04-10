@@ -40,7 +40,7 @@ export function POST({ request }) {
 		if (room) {
 		  Ev(room)
 		}
-		emit('message', i.toString())
+		emit('message', JSON.stringify(room))
 		i += 1
 	})
     },
