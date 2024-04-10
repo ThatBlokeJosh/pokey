@@ -99,7 +99,7 @@ on:mousemove={(e) => {
 
 	<div class="absolute bottom-[10px] right-[10px] px-[10px] flex gap-[10px] items-center">
 		<p class="text-sm font-bold italic opacity-80">Courtesy of ThatBlokeJosh, made with ❤️ and ☕</p>
-		<a href="https://github.com/ThatBlokeJosh">
+		<a href="https://github.com/ThatBlokeJosh/pokey">
 			<button class="hover:scale-[1.2] duration-200 my-auto mx-auto bg-white rounded-md w-[30px] h-[30px] text-center shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)]"> 
 				<i class="fa-brands text-[16px] text-center grid justify-center items-center self-center mx-auto my-auto text-black fa-github"></i>
 			</button> 
