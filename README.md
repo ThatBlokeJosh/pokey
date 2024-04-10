@@ -1,38 +1,18 @@
-# create-svelte
+# Pokey ♠️
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+Pokey ♥️, an aesthetically 🖼️ focussed 😣 multi-player 7️⃣ real-time ⏰ poker 🃏 game 🎮 made using SvelteKit 🇸, TypeScript 😡 and Tailwind 🍃
 
-## Creating a project
+# You can play over [here](https://pokey.remington.boo) 🎲
 
-If you're seeing this, you've probably already done this step. Congrats!
+Just click 🖱️ on the link 🔗 and set your name 🎫, then you can create 📦 a random 🍄 room 🚹 or join an existing one 🚀
 
+# Install ⬇️
 ```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+  git clone https://github.com/ThatBlokeJosh/pokey.git
+  docker build -t pokey
+  docker run --name pokey -p 4173:4173 --restart unless-stopped pokey
 ```
 
-## Developing
+# Contributing 🕴🏻
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+just open a pull request ig (i'm not dumb I won't let you change the github actions)
