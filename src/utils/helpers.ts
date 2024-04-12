@@ -5,6 +5,7 @@ import { rooms } from "./rooms";
 
 export let room: Writable<Room> = writable()
 export let player: Writable<Player> = writable()
+export let players: Writable<Map<string, Player>> = writable(new Map())
 export let hand: Writable<Card[]> = writable(new Array())
 export let table: Writable<Card[]> = writable(new Array())
 export let pot: Writable<number> = writable(0)
@@ -57,6 +58,7 @@ export async function Check(name: string) {
 		winnerHand.set(data.room.rank)
 		room.set(data.room)
 		player.set(data.player)
+		players.set(new Map(Object.entries(JSON.parse(data.players))))
 	})
 }
 
@@ -76,6 +78,7 @@ export async function Bet(ammount: number, fold:bool = false) {
 		winnerHand.set(data.room.rank)
 		room.set(data.room)
 		player.set(data.player)
+		players.set(new Map(Object.entries(JSON.parse(data.players))))
 	})
 }
 
@@ -99,6 +102,7 @@ export async function NextRound(name: string) {
 		winnerHand.set(data.room.rank)
 		room.set(data.room)
 		player.set(data.player)
+		players.set(new Map(Object.entries(JSON.parse(data.players))))
 	})
 }
 

@@ -9,7 +9,8 @@ export async function GET(event) {
 	let slug = event.url.toString().split("/")[3]
 	let room = GetRoom(slug) 
 	let player = room.players.get(name)
-	return json({room, player})
+	let jsonPlayers = JSON.stringify(Object.fromEntries(room.players.entries()))
+	return json({room, player, players: jsonPlayers})
 }
 
 export async function POST({request}) {
@@ -30,7 +31,8 @@ export async function POST({request}) {
 	room.names.push(name)
 	room.slug = slug
 	UpdateRoom(slug, room)
-	return json({room, player})
+	let jsonPlayers = JSON.stringify(Object.fromEntries(room.players.entries()))
+	return json({room, player, players: jsonPlayers})
 }
 
 export async function PATCH({request}) {
@@ -66,7 +68,8 @@ export async function PATCH({request}) {
 		
 	}
 	UpdateRoom(slug, room)
-	return json({room, player})
+	let jsonPlayers = JSON.stringify(Object.fromEntries(room.players.entries()))
+	return json({room, player, players: jsonPlayers})
 }
 
 
@@ -89,8 +92,8 @@ export async function PUT({request}) {
 	let room: Room = GetRoom(slug) 
 	room.turn = 0
 	room.index = 0
-	room.current = room.names[0]
 	room.names = (Array.from(room.players.keys()))
+	room.current = room.names[0]
 	room.table = []
 	room.top = ""
 	room.rank = -1
@@ -106,5 +109,6 @@ export async function PUT({request}) {
 	})
 	UpdateRoom(slug, room)
 	let returnPlayer = room.players.get(name)
-	return json({room, player:returnPlayer})
+	let jsonPlayers = JSON.stringify(Object.fromEntries(room.players.entries()))
+	return json({room, player:returnPlayer, players: jsonPlayers})
 }

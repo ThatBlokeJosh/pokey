@@ -2,7 +2,7 @@
 	import CardComponent from "$lib/Card.svelte";
 	import Blob from "$lib/Blob.svelte";
 	import {Evaluate} from "../../utils/poker"
-	import {hand, Check, pot, Bet, current, Join, turn, Status, winner, Reset, table, wallet, NextRound, room, player} from "../../utils/helpers"
+	import {hand, Check, pot, Bet, current, Join, turn, Status, winner, Reset, table, wallet, NextRound, room, player, players} from "../../utils/helpers"
 	import { fly, scale } from "svelte/transition";
 	import { Hand, type Card, Suit } from "../../utils/types";
 	import { page } from "$app/stores";
@@ -128,12 +128,17 @@ out:fly={{duration: 500}}
 			<p class="absolute top-[-15px] right-[-17px] rotate-[45deg] text-[30px]">{$winner === name ? "👑" : "🤡"}</p>
 		</div>
 	{:else if $current && !$winner && $room}
-		<div class="flex gap-[5px] w-fit mx-auto" in:scale={{duration: 500, delay: 100}}>
+		<div class="flex gap-[5px] w-fit mx-auto" in:scale={{duration: 500, delay: 100}} style="white-space: nowrap;">
 			{#each $room.names as player}
 				{#if player != name}
-					<h1 class="text-xl mx-auto font-bold text-white duration-500 {$current === player ? 'bg-yellow-500 shadow-[0_0px_20px_5px_rgba(255,255,0,0.5)]' : 'bg-gray-500 shadow-[0_0px_20px_5px_rgba(128,128,128,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]">
-						<span class="opacity-90 italic text-sm">{$current === player ? "Current player: " : "Player: "}</span>{player}
-					</h1>
+					<div class="grid gap-[5px] justify-center">
+						<h1 class="text-xl mx-auto font-bold text-white duration-500 {$current === player ? 'bg-yellow-500 shadow-[0_0px_20px_5px_rgba(255,255,0,0.5)]' : 'bg-gray-500 shadow-[0_0px_20px_5px_rgba(128,128,128,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]">
+							<span class="opacity-90 italic text-sm">{$current === player ? "Current player: " : "Player: "}</span>{player}
+						</h1>
+						{#if $players && $players.size > 0}
+							<h1 class="font-bold text-sm text-black bg-white mx-auto py-[5px] px-[10px] rounded-md w-fit h-fit shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)]"><span class="opacity-70 italic text-xs">Wallet: </span>{$players.get(player).wallet}$</h1>
+						{/if}
+					</div>
 					{:else}
 					<div class="grid gap-[5px] justify-center">
 						<h1 class="text-xl mx-auto font-bold text-white duration-500 {$current === name ? 'bg-green-500 shadow-[0_0px_20px_5px_rgba(0,255,0,0.5)]' : 'bg-red-500 shadow-[0_0px_20px_5px_rgba(255,0,0,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]">
