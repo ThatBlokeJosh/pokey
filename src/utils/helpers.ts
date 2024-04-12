@@ -61,10 +61,10 @@ export async function Check(name: string) {
 }
 
 
-export async function Bet(ammount: number) {
+export async function Bet(ammount: number, fold:bool = false) {
 	const headers = new Headers();
 	headers.set('Content-Type', 'application/json');
-	const requestOptions = { method: 'PATCH', headers: headers, body: JSON.stringify({bet: ammount}) }
+	const requestOptions = { method: 'PATCH', headers: headers, body: JSON.stringify({bet: ammount, fold: fold}) }
 	let res = await fetch(`${url}/api/`, requestOptions);
 	res.json().then((data) => {
 		pot.set(data.room.pot)

@@ -34,9 +34,12 @@ export async function POST({request}) {
 }
 
 export async function PATCH({request}) {
-	let {bet} = await request.json();
+	let {bet, fold} = await request.json();
 	let slug = request.url.toString().split("/")[3]
-	let room = GetRoom(slug) 
+	let room: Room = GetRoom(slug) 
+	if (fold) {
+		room.names.splice(room.index % room.names.length, 1)	
+	}
 	let player = room.players.get(room.current)
 	player.wallet -= bet
 	room.players.set(room.current, player)
@@ -83,10 +86,11 @@ export function DELETE({request}) {
 export async function PUT({request}) {
 	let {name} = await request.json()
 	let slug = request.url.toString().split("/")[3]
-	let room = GetRoom(slug) 
+	let room: Room = GetRoom(slug) 
 	room.turn = 0
 	room.index = 0
 	room.current = room.names[0]
+	room.names = (Array.from(room.players.keys()))
 	room.table = []
 	room.top = ""
 	room.rank = -1

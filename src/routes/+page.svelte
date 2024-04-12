@@ -38,7 +38,7 @@
 {#if innerWidth > 0 && !open}
 	{#each hand as card, i}
 		<div
-			class="w-fit h-fit text-white absolute" style:top={`${(Math.floor(innerHeight/2)-110)}px`} style:left={`${Math.floor(((Math.floor(innerWidth/2)-((hand.length/2)*220))+i*220))}px`}
+			class="hidden md:block w-fit h-fit text-white absolute" style:top={`${(Math.floor(innerHeight/2)-110)}px`} style:left={`${Math.floor(((Math.floor(innerWidth/2)-((hand.length/2)*220))+i*220))}px`}
 			style:rotate={`${-30 + (i*15)}deg`}
 			in:scale|global={{duration:500, delay: 500*i}}
 		>
@@ -80,15 +80,19 @@ on:mousemove={(e) => {
 			on:click={() => {open = true; nameOpen = true}}><i class="scale-[1.1] fa-solid fa-sm text-[10px] text-center grid justify-center items-center self-center mx-auto my-auto text-black fa-pen"></i></button>
 	</div>
 	<div class="h-fit grid gap-[20px] z-[30]">
-		<div class="relative w-fit mx-auto text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 m-[10px] rounded-md px-[20px] py-[10px]">
-			<div class="absolute z-[-50] top-0 left-0 h-full w-full blur-xl bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-md">
-				<p class="text-[7rem]"><span class="opacity-80 italic text-5xl">Welcome to </span>Pokey!</p> 
+		<div class="relative mx-auto text-center font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 m-[10px] rounded-md px-[20px] py-[10px]" style="white-space: nowrap;">
+			<div class="absolute z-[-50] top-0 left-0 h-full blur-xl bg-clip-text bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 rounded-md">
+			<p class="text-5xl md:text-[7rem]"><span class="opacity-80 italic text-3xl md:text-5xl">Welcome to </span>Pokey!</p> 
 			</div>
-			<p class="text-[7rem]"><span class="opacity-80 italic text-5xl">Welcome to </span>Pokey!</p> 
+			<p class="text-5xl md:text-[7rem]"><span class="opacity-80 italic text-3xl md:text-5xl">Welcome to </span>Pokey!</p> 
 		</div>
-		<div class="flex gap-[20px]">
+		<div class="grid md:hidden w-[90vw] mx-auto justify-center items-center gap-[10px]">
+			<input bind:value={join} type="text" placeholder="Room code" class="italic bg-white rounded-md px-[10px] py-[5px] text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)] font-bold">
+			<p class="text-xs italic opacity-80 text-center">I am not liable for dumb decissions made while playing this game</p>
+		</div>
+		<div class="flex gap-[20px] justify-center">
 			<a href={`/${hex}`}><button class="bg-white rounded-md px-[10px] py-[5px] text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)] font-bold hover:scale-110 duration-500">Create room</button></a>
-			<div class="grid justify-center items-center gap-[10px]">
+			<div class="hidden md:grid justify-center items-center gap-[10px]">
 				<input bind:value={join} type="text" placeholder="Room code" class="italic bg-white rounded-md px-[10px] py-[5px] text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)] font-bold">
 				<p class="text-xs italic opacity-80">I am not liable for dumb decissions made while playing this game</p>
 			</div>
@@ -97,7 +101,7 @@ on:mousemove={(e) => {
 	</div>
 
 	<div class="absolute bottom-[10px] right-[10px] px-[10px] flex gap-[10px] items-center">
-		<p class="text-sm italic opacity-80">Courtesy of ThatBlokeJosh, made with ❤️ and ☕</p>
+		<p class="text-xs md:text-sm italic opacity-80">Courtesy of ThatBlokeJosh, made with ❤️ and ☕</p>
 		<a href="https://github.com/ThatBlokeJosh/pokey">
 			<button class="hover:scale-[1.1] duration-500 my-auto mx-auto bg-white rounded-md w-[30px] h-[30px] text-center shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)]"> 
 				<i class="fa-brands text-[16px] text-center grid justify-center items-center self-center mx-auto my-auto text-black fa-github"></i>

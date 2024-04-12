@@ -67,6 +67,7 @@
 in:fly={{duration: 500}}
 out:fly={{duration: 500}}
 >
+
 	{#if nameOpen}
 		<input bind:value={name} type="text" autofocus placeholder="ThatBlokeJosh" class="w-[20vw] p-[10px] mx-auto rounded-md shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)] font-bold text-center italic h-fit"
 			on:keydown={(e) => {
@@ -102,43 +103,49 @@ out:fly={{duration: 500}}
 </div>
 {/if}
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="bg-black text-white h-[100vh] my-auto grid justify-center overflow-hidden"
+<div class="bg-black text-white h-[100vh] w-[100vw] my-auto grid overflow-hidden"
 	on:mousemove={(e) => {
 		x = e.clientX
 		y = e.clientY
 	}}
 >	
-<div class="h-fit z-[50] flex justify-between px-[20px] m-[10px] items-center">
+
+<div class="h-fit z-[50] flex justify-between px-[5px] md:px-[20px] m-[10px] items-center">
 	<h1 class="font-bold text-xl"><span class="opacity-70 italic text-sm">Name: </span>{name}</h1>
 	{#if !open}
-	<div class="flex gap-[10px]">
-		<h1 class="text-xl font-bold text-black bg-white py-[5px] px-[10px] rounded-md w-fit h-fit shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)]"><span class="opacity-70 italic text-sm">Pot: </span>{$pot}$</h1>
-		<h1 class="text-xl font-bold text-black bg-white py-[5px] px-[10px] rounded-md w-fit h-fit shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)]"><span class="opacity-70 italic text-sm">Wallet: </span>{$wallet}$</h1>
-		<h1 class="text-xl font-bold text-white py-[5px] px-[10px] rounded-md w-fit h-fit bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500"><span class="opacity-80 italic text-sm">Turn: </span>{$turn}</h1>
+	<div class="text-md md:text-xl flex gap-[10px]">
+		<h1 class="font-bold text-black bg-white py-[5px] px-[10px] rounded-md w-fit h-fit shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)]"><span class="opacity-70 italic text-sm">Pot: </span>{$pot}$</h1>
+		<h1 class="hidden md:block font-bold text-black bg-white mx-auto my-auto py-[5px] px-[10px] rounded-md w-fit h-fit shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)]"><span class="opacity-70 italic text-sm text-center">Wallet: </span>{$wallet}$</h1>
+		<h1 class="font-bold text-white py-[5px] px-[10px] rounded-md w-fit h-fit bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500"><span class="opacity-80 italic text-sm">Turn: </span>{$turn}</h1>
 	</div>
 	{/if}
 </div>
+	<div class="w-[300px] h-[100px] mx-auto flex items-center justify-center">
 	{#if $winner}
-		<div in:scale={{duration: 500, delay: 500}} out:scale={{duration: 500}} class="relative mx-auto text-xl font-bold text-white py-[5px] px-[10px] rounded-md w-fit h-fit {$winner === name ? 'bg-green-500 shadow-[0_0px_20px_5px_rgba(0,255,0,0.5)]' : 'bg-red-500 shadow-[0_0px_20px_5px_rgba(255,0,0,0.5)]'}">
-			<h1 class=""><span class="opacity-90 italic text-sm">Winner: </span>{$winner}</h1>
+		<div in:scale={{duration: 500, delay: 100}} class="relative mx-auto text-xl font-bold text-white py-[5px] px-[10px] rounded-md w-fit h-fit {$winner === name ? 'bg-green-500 shadow-[0_0px_20px_5px_rgba(0,255,0,0.5)]' : 'bg-red-500 shadow-[0_0px_20px_5px_rgba(255,0,0,0.5)]'}">
+			<h1 class=""><span class="opacity-90 italic text-sm self-center">Winner: </span>{$winner}
+			</h1>
 			<p class="absolute top-[-15px] right-[-17px] rotate-[45deg] text-[30px]">{$winner === name ? "👑" : "🤡"}</p>
 		</div>
-	{/if}
-	{#if $current && !$winner && $room}
-		<div class="flex gap-[5px] w-fit mx-auto" in:scale={{duration: 500, delay: 1500}} out:scale={{duration: 500}}>
+	{:else if $current && !$winner && $room}
+		<div class="flex gap-[5px] w-fit mx-auto" in:scale={{duration: 500, delay: 100}}>
 			{#each $room.names as player}
 				{#if player != name}
 					<h1 class="text-xl mx-auto font-bold text-white duration-500 {$current === player ? 'bg-yellow-500 shadow-[0_0px_20px_5px_rgba(255,255,0,0.5)]' : 'bg-gray-500 shadow-[0_0px_20px_5px_rgba(128,128,128,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]">
 						<span class="opacity-90 italic text-sm">{$current === player ? "Current player: " : "Player: "}</span>{player}
 					</h1>
 					{:else}
-					<h1 class="text-xl mx-auto font-bold text-white duration-500 {$current === name ? 'bg-green-500 shadow-[0_0px_20px_5px_rgba(0,255,0,0.5)]' : 'bg-red-500 shadow-[0_0px_20px_5px_rgba(255,0,0,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]">
-						<span class="opacity-90 italic text-sm">{$current === player ? "Current player: " : "Player: "}</span>You
-					</h1>
+					<div class="grid gap-[5px] justify-center">
+						<h1 class="text-xl mx-auto font-bold text-white duration-500 {$current === name ? 'bg-green-500 shadow-[0_0px_20px_5px_rgba(0,255,0,0.5)]' : 'bg-red-500 shadow-[0_0px_20px_5px_rgba(255,0,0,0.5)]'} py-[5px] px-[10px] rounded-md w-fit h-fit  z-[30]">
+							<span class="opacity-90 italic text-sm">{$current === player ? "Current player: " : "Player: "}</span>You
+						</h1>
+						<h1 class="md:hidden font-bold text-sm text-black bg-white mx-auto py-[5px] px-[10px] rounded-md w-fit h-fit shadow-[0_0px_20px_5px_rgba(255,255,255,0.5)]"><span class="opacity-70 italic text-xs">Wallet: </span>{$wallet}$</h1>
+					</div>
 				{/if}
 			{/each}	
 		</div>
 	{/if}
+	</div>
 	<div class="h-fit my-auto flex justify-center items-center gap-[10px] duration-500 table-cards"
 		in:scale={{duration: 500}}
 	>
@@ -154,7 +161,7 @@ out:fly={{duration: 500}}
 <div class="w-[100vw] grid justify-center items-center my-auto mx-auto h-fit gap-[15px] z-[30]">
 	{#if $hand.length > 0}
 		<p class="mx-auto font-bold"
-			in:scale={{duration: 500, delay: 500}}
+			in:scale={{duration: 500}}
 		><span class="opacity-70 italic text-sm">Evaluation:</span> {ev}</p>
 	{/if}
 	<div class="w-[100vw] h-fit my-auto flex justify-center items-center gap-[10px] duration-500"
@@ -165,27 +172,29 @@ out:fly={{duration: 500}}
 		{/each}
 	</div>
 	{#if $hand.length > 0}
-	<div class="mt-[30px] w-fit mx-auto flex gap-[20px]"
-		in:scale={{duration: 500, delay: 1000}}
+	<div class="mt-[10px] w-fit mx-auto flex gap-[20px] cursor-not-allowed"
+		in:scale={{duration: 500}}
 	>
 		{#if $turn < 6}
 			<button class="{$current === name ? '' : 'pointer-events-none cursor-not-allowed opacity-50'} hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
 				if ($current === name) {
-					await Bet($call)
+					await Bet(Math.min($call, $wallet))
 				}
-			}}>{$call > 0 ? `Call ${$call}$` : "Check"}</button>
-			<button class="{$current === name || $wallet <= 0 ? '' : 'pointer-events-none cursor-not-allowed opacity-50'} hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
+			}}>{$call > 0 ? `Call ${Math.min($call, $wallet)}$` : "Check"}</button>
+
+			<button class="{$current === name && $wallet > 0 ? '' : 'pointer-events-none cursor-not-allowed opacity-50'} hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
 				if ($current === name) {
 					open = true
 					betOpen = true
 				}
 			}}>{$call > 0 ? "Raise" : "Bet"}</button>
-			<!-- <button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => { -->
-			<!-- }}>Fold</button> -->
+
+			<button class="{$current === name && $room.names.length > 1 ? '' : 'pointer-events-none cursor-not-allowed opacity-50'} hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={async () => {
+				if ($current === name) {
+					await Bet(0, true)
+				}
+			}}>Fold</button>
 		{:else}
-			<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={() => {
-				Reset()
-			}}>Delete Room</button>
 			<button class="hover:scale-110 duration-500 bg-white text-black shadow-[0_0px_20px_5px_rgba(255,255,255,0.3)] font-bold w-fit mx-auto my-auto rounded-lg py-[5px] px-[20px]" on:click={() => {
 				NextRound(name)
 			}}>Next Round</button>
@@ -199,5 +208,8 @@ out:fly={{duration: 500}}
 	.table-cards {
 		scrollbar-width: none;
 		overflow: scroll;
+	}
+	::-webkit-scrollbar {
+		display: none;	
 	}
 </style>
